@@ -8,13 +8,16 @@ const renderEmoji = (diff: number): string => {
   return '✅'
 }
 
+const isNumber = (val: string | number) => !isNaN(str) && !isNaN(parseFloat(str))
+
 export const buildComment = ({results}: BuildCommentInputs): string => {
   const html = results.map(result => {
     let plus = ''
     let arrow = ''
     let diffHtml = ''
+    let coverageHtml = ''
 
-    if (result.diff !== null) {
+    if (result.diff !== null && isNumber(result.diff)) {
       if (result.diff < 0) {
         arrow = '▾'
       } else if (result.diff > 0) {
@@ -32,6 +35,8 @@ export const buildComment = ({results}: BuildCommentInputs): string => {
         '%'
       )
     }
+
+    coverageHtml = isNumber(result.coverage) ? th(result.coverage.toFixed, '%') : th("N/A")
 
     const htmlResults = tabulate(result.details)
 
