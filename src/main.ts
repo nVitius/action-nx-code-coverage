@@ -82,7 +82,9 @@ export const main = async ({
 
       const files = buildGistCoverageFileList(results)
 
-      updateCoverageGist({files, gistToken, gistId})
+      if (gistToken && gistId) {
+        updateCoverageGist({files, gistToken, gistId})
+      }
     }
 
     return results
